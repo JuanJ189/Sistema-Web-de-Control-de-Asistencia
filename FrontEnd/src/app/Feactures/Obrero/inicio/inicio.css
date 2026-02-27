@@ -1,0 +1,27 @@
+.ajuste {
+    max-width: 30rem;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.icono{
+    font-size: .9rem;
+}
+
+.text-primary {
+    color: #137fec;
+}
+
+.text-lo {
+    font-family: 'Inter', sans-serif;
+}
+
+.bg-primary {
+    background-color: #137fec;
+}
+
+.bg-primary:hover{
+    background-color: #217bd6;
+}

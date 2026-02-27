@@ -1,0 +1,96 @@
+<div class="flex justify-center bg-gray-50 text-lo">
+    <div class="w-full ajuste bg-white min-h-screen shadow-xl flex flex-col">
+        <header class="flex items-center justify-between px-6 py-4 border-b border-gray-100 ">
+            <div class="flex items-center gap-2 text-primary">
+                <span class="material-symbols-outlined font-bold">location_on</span>
+                <h1 class="text-xl font-normal tracking-tight text-gray-900 ">Asistencia</h1>
+            </div>
+            <button (click)="cerrarSesion()"
+                class="flex items-center gap-1 px-3 py-1.5 rounded-lg  font-normal text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                <span class="material-symbols-outlined icono text-2xl">logout</span>
+                Cerrar Sesión
+            </button>
+        </header>
+        <main class="flex-1 px-6 py-8 flex flex-col">
+            <section class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 ">Hola, {{ nombre }}</h2>
+                <div class="flex items-center gap-2 mt-1 text-gray-500 ">
+                    <span class="material-symbols-outlined icono">calendar_today</span>
+                    <p class="text-sm font-medium">{{ fechaFormateada }}</p>
+                </div>
+            </section>
+            <section class="mb-8">
+                <div class="bg-gray-50 rounded-xl p-5 border border-gray-100  shadow-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <p class="text-xs font-bold text-primary uppercase tracking-wider mb-1">Validación GPS</p>
+                            <h3 class="text-lg font-bold text-gray-900 ">Estado de Ubicación</h3>
+                        </div>
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">explore</span>
+                        </div>
+                    </div>
+                    <div
+                        class="relative w-full h-60 bg-gray-200  rounded-lg overflow-hidden mb-4 border border-gray-200 ">
+                        <google-map [options]="mapOptions" height="100%" width="100%" [center]="center" [zoom]="zoom">
+
+                            <map-advanced-marker [position]="markerPosition"></map-advanced-marker>
+
+                        </google-map>
+                    </div>
+                </div>
+            </section>
+            <div class="mb-10">
+                <div class="flex items-center gap-3 p-4 rounded-lg border" [ngClass]="{'bg-green-50 border-green-200': tipoMensaje==='success' ,'bg-red-50 border-red-200':
+                    tipoMensaje==='error' }">
+                    <span class="material-symbols-outlined" [ngClass]="{
+      'text-green-600': tipoMensaje === 'success',
+      'text-red-600': tipoMensaje === 'error'
+    }">
+                        {{ tipoMensaje === 'success' ? 'check_circle' : 'error' }}
+                    </span>
+
+                    <p class="text-sm font-medium" [ngClass]="{
+      'text-green-800': tipoMensaje === 'success',
+      'text-red-800': tipoMensaje === 'error'
+    }">
+                        {{ mensajeRespuesta }}
+                    </p>
+                </div>
+                <button (click)="enviarAsistencia()" [disabled]="estadoAsistencia?.yaMarco"
+                    class="w-full mt-5 h-16 bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center gap-3 transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-2xl">fingerprint</span>
+                    <span class="text-xl font-bold">Registrar Asistencia</span>
+                </button>
+                <p class="text-center text-xs text-gray-400 mt-4 uppercase tracking-widest font-semibold italic">Listo
+                    para marcar</p>
+            </div>
+            <section class="pb-8">
+                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Registro de Hoy</h4>
+                <div class="space-y-3">
+                    @if (estadoAsistencia?.yaMarco) {
+
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                <span class="material-symbols-outlined text-lg">login</span>
+                            </div>
+                            <span class="text-sm font-semibold text-gray-700">
+                                Registro exitoso
+                            </span>
+                        </div>
+
+                        <span class="text-sm font-medium text-gray-500">
+                            {{ estadoAsistencia.horaMarcado }}
+                        </span>
+
+                    </div>
+
+                    }
+                </div>
+            </section>
+        </main>
+
+    </div>
+</div>

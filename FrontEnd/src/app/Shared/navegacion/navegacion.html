@@ -1,0 +1,41 @@
+<aside
+    class="w-64 border-r border-slate-200 bg-white flex flex-col fixed h-full transition-colors duration-300">
+    <div class="p-6 flex items-center gap-3">
+        <div class="size-10 primary rounded-lg flex items-center justify-center text-white">
+            <span class="material-symbols-outlined">architecture</span>
+        </div>
+        <div>
+            <h1 class="font-bold text-lg leading-tight">Construcción</h1>
+            <p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Panel de Control</p>
+        </div>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+        <a routerLink="/home" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }" class="flex items-center gap-3 px-3 py-2.5 rounded-lg ">
+            <span class="material-symbols-outlined">dashboard</span>
+            Panel
+        </a>
+        <a routerLink="/home/empleados" routerLinkActive="activo" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+            <span class="material-symbols-outlined">badge</span>
+            Empleados
+        </a>
+        <a routerLink="/home/inventario" routerLinkActive="activo" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+            >
+            <span class="material-symbols-outlined">inventory_2</span>
+            Inventario
+        </a>
+    </nav>
+    <div class="p-4 border-t border-slate-200 mt-auto">
+        <div class="flex items-center gap-3 p-2">
+            <div class="size-10 rounded-full bg-slate-200 bg-cover"
+                data-alt="User profile avatar portrait"
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAb9FIUA-Sr37VmcBhlcdumJc5xXv0qnm7DWQz5vsWX0HiTdtYucYCmxA9fBnFVC68zJpmM4PpwedxhaEUlY1ZdT0SoI6ncyuOq92VwKlCt0YUILjY_QZyNsi5KYD5A4RMPRcfnKcMy2SgHQAiErJR_7_qIcp8F3RhKU4z1uvxHPPOjFXzLxjUVhhcJjmucZVXF4VUcWLRl1yQbXyT0sd8gZiiatuICezanZejm9EFjRBv-oYh7jO_iivhyMOT4ctGG69iwo7kKOhA')">
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold truncate">{{nombre}}</p>
+                <p class="text-xs text-slate-500 truncate">Gerente de Obra</p>
+            </div>
+            <span class="material-symbols-outlined text-slate-400 text-sm">settings</span>
+        </div>
+    </div>
+</aside>

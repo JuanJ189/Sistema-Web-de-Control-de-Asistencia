@@ -1,0 +1,112 @@
+<!-- Overlay del modal -->
+<div *ngIf="mostrarModal" class="fixed inset-0 z-50 flex items-center justify-center p-4" (click)="cerrarModal()">
+
+  <!-- Contenido del modal (stop propagation para no cerrar al hacer click adentro) -->
+  <div class="bg-white rounded-xl border border-slate-200 shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+    (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight">
+          {{ modoEdicion ? 'Editar Empleado' : 'Registrar Nuevo Empleado' }}
+        </h2>
+        <p class="text-slate-500 mt-1 text-sm">
+          {{ modoEdicion ? 'Modifica los datos del empleado.' : 'Ingrese los datos para dar de alta a un
+          nuevointegrante.' }}
+        </p>
+      </div>
+      <button (click)="cerrarModal()" class="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-8 space-y-8">
+
+      <!-- Información de Identidad -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div class="col-span-2">
+          <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Información de Identidad</h3>
+        </div>
+        <div class="space-y-2">
+          <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Nombre Completo</label>
+          <input [(ngModel)]="nuevoEmpleado.nombreCompleto"
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all placeholder:text-slate-400"
+            placeholder="Ej. Juan Pérez García" type="text" />
+        </div>
+        <div class="space-y-2">
+          <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">DNI / Identificación</label>
+          <input [(ngModel)]="nuevoEmpleado.dni"
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all placeholder:text-slate-400"
+            placeholder="Número de identificación" type="text" />
+        </div>
+      </div>
+
+      <div class="border-t border-slate-100"></div>
+
+      <!-- Acceso y Roles -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div class="col-span-2">
+          <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Acceso y Roles</h3>
+        </div>
+        <div class="space-y-2">
+          <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Rol en el Sistema</label>
+          <select [(ngModel)]="nuevoEmpleado.rol"
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all font-medium">
+            <option value="" disabled>Seleccione un rol</option>
+            <option value="OBRERO">OBRERO</option>
+            <option value="ADMIN">ADMIN</option>
+          </select>
+        </div>
+        <div class="space-y-2">
+          <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Contraseña Temporal</label>
+          <div class="relative">
+            <input [(ngModel)]="nuevoEmpleado.password"
+              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all placeholder:text-slate-400"
+              placeholder="Mínimo 8 caracteres" type="password" />
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-100"></div>
+
+      <!-- Información Laboral -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div class="col-span-2">
+          <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Información Laboral</h3>
+        </div>
+        <div class="space-y-2">
+          <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Cargo u Oficio</label>
+          <input [(ngModel)]="nuevoEmpleado.cargo"
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all placeholder:text-slate-400"
+            placeholder="Ej. Albañil, Capataz, Electricista" type="text" />
+        </div>
+        <div class="space-y-2">
+          <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Salario Diario</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Bs</span>
+            <input [(ngModel)]="nuevoEmpleado.salarioDiario"
+              class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all placeholder:text-slate-400"
+              placeholder="0.00" step="0.01" type="number" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="px-8 py-5 border-t border-slate-100 flex gap-4 justify-end">
+      <button (click)="cerrarModal()"
+        class="px-8 py-3 border border-slate-200 text-slate-600 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+        Cancelar
+      </button>
+      <button (click)="guardarEmpleado()"
+        class="inline-flex items-center gap-2 px-10 py-3 primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/25 hover:brightness-110 transition-all">
+        <span class="material-symbols-outlined text-lg">save</span>
+        {{ modoEdicion ? 'Guardar Cambios' : 'Guardar Empleado' }}
+      </button>
+    </div>
+
+  </div>
+</div>

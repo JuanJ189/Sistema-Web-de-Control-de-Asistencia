@@ -1,0 +1,54 @@
+<div class="flex flex-row  h-screen">
+    <div class="h-screen w-3/4 flex flex-col items-center justify-center">
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <img src="Imagenes/Logo.webp" class="h-16 w-auto object-contain">
+        </div>
+        <section class="mt-6">
+            <h1 class="text-2xl font-bold text-slate-800 tracking-tight titulo text-center">Sistema de control deGestión
+                de obras</h1>
+            <p class="mt-2 text-slate-500 text-sm text-center">Control de asistencia y stock de construcción</p>
+        </section>
+        <div class="Ajustes bg-white shadow-x1 shadow-sm  rounded-x1 border border-gray-200 overflow-hidden ">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">Bienvenido</h2>
+            <p class="text-sm text-slate-500 mb-2 ">Por favor, ingrese sus credenciales para continuar</p>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6 mt-6">
+                <label class="uppercase text-xs font-medium tracking-wider text-slate-500">DNI / documento de identidad
+                </label>
+                <div class="relative mt-4">
+                    <div
+                        class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                        <span class="material-icons text-xl">badge</span>
+                    </div>
+                    <input
+                        class="block w-full pl-11 pr-4 py-3 bg-slate-50  border-slate-200  text-slate-900  rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                        placeholder="Ingrese su número de DNI" required="" type="text" formControlName="dni" />
+
+                </div>
+                <label class="block text-xs font-medium uppercase tracking-wider text-slate-500">Contraseña</label>
+                <div class="relative">
+                    <div
+                        class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                        <span class="material-icons text-xl">lock_open</span>
+                    </div>
+                    <input
+                        class="block w-full pl-11 pr-4 py-3 bg-slate-50 border-slate-200 text-slate-900 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-400  "
+                        placeholder="••••••••" required="" type="password" formControlName="password" />
+                </div>
+                <!-- Submit Button -->
+                <button
+                    class="w-full  hover:bg-primary/90 text-white font-semibold py-3.5 px-4 rounded-lg shadow-lg shadow-primary/20 transition-all active:transform active:scale-[0.98] flex items-center justify-center gap-2"
+                    type="submit"
+                    style="background-color: #137fec;">
+                    <span>Iniciar Sesión</span>
+                    <span class="material-icons text-lg">login</span>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class=" w-1/4 ">
+        <img src="Imagenes/ImagenInicio.webp" class="h-full w-full object-cover" width="480" height="720" alt="Imagen de fondo" />
+        <div class="absolute bottom-7 right-7 text-white text-sm italic">
+            <p class="">"Construyendo el futuro con tecnología y precisión."</p>
+        </div>
+    </div>
+</div>

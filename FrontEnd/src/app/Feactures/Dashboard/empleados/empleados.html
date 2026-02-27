@@ -1,0 +1,173 @@
+<div class="flex-1 flex flex-col min-h-screen">
+    <main class="flex-1 w-full px-8 py-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Gestión de
+                    Empleados</h2>
+                <p class="text-slate-500 mt-1 text-lg">Administre el personal de obra, asignaciones
+                    de proyectos y estructuras de salarios diarios.</p>
+            </div>
+            <div class="flex gap-3">
+                <button (click)="abrirModal()"
+                    class="inline-flex items-center gap-2 px-6 py-3 primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/25 hover:brightness-110 transition-all">
+                    <span class="material-symbols-outlined text-lg font-bold">person_add</span>
+                    Agregar Nuevo Empleado
+                </button>
+
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 flex items-center gap-5 shadow-sm">
+                <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                    <span class="material-symbols-outlined text-4xl">groups</span>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-slate-500 uppercase tracking-widest">Total Trabajadores</p>
+                    <p class="text-3xl font-black">{{ employeesSummary.empleadosTotales }}</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 flex items-center gap-5 shadow-sm">
+                <div class="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
+                    <span class="material-symbols-outlined text-4xl">person_check</span>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-slate-500 uppercase tracking-widest">Activos Hoy</p>
+                    <p class="text-3xl font-black">{{ employeesSummary.empleadosActivos }}</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 flex items-center gap-5 shadow-sm">
+                <div class="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+                    <span class="material-symbols-outlined text-4xl">payments</span>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-slate-500 uppercase tracking-widest">Nómina Diaria</p>
+                    <p class="text-3xl font-black">Bs {{ employeesSummary.nominaDiaria }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <div class="relative w-full max-w-md">
+                <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input [(ngModel)]="textoBusqueda"
+                    class="w-full pl-10 pr-4 py-2 bg-slate-50 border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-blue-300 transition-all"
+                    placeholder="Buscar por nombre, cargo o ID..." type="text" />
+            </div>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50">
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Nombre</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Cargo</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Salario Diario
+                        </th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">Estado Actual
+                        </th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500">ESTADO DE
+                            ASISTENCIA</th>
+                        <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-slate-500 text-right">
+                            Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <tr *ngFor="let emp of empleadosFiltrados" class="hover:bg-slate-50/80 transition-colors">
+
+                        <!-- Nombre -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+                                    {{ getInitials(emp.nombreCompleto) }}
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900">{{ emp.nombreCompleto }}</p>
+                                    <p class="text-xs text-slate-500 font-medium">{{ emp.dni }}</p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Cargo -->
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold">
+                                {{ emp.cargo }}
+                            </span>
+                        </td>
+
+                        <!-- Salario -->
+                        <td class="px-6 py-4 font-bold text-slate-700">Bs {{ emp.salarioDiario }}</td>
+
+                        <!-- Estado activo/inactivo -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full"
+                                    [ngClass]="emp.estado ? 'bg-green-500' : 'bg-slate-300'"></span>
+                                <span class="text-sm font-bold">{{ emp.estado ? 'Activo' : 'Inactivo' }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Estado asistencia -->
+                        <td class="px-6 py-4">
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider"
+                                [ngClass]="emp.estadoAsistencia === 'A TIEMPO' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                                {{ emp.estadoAsistencia }}
+                            </span>
+                        </td>
+
+                        <!-- Acciones -->
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-1">
+                                <button (click)="editarEmpleado(emp)"
+                                    class="p-2 text-slate-400 hover:text-blue-300 transition-colors" title="Editar">
+                                    <span class="material-symbols-outlined text-xl">edit</span>
+                                </button>
+                                <button (click)="toggleEmpleado(emp)"
+                                    class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Desactivar">
+                                    <span class="material-symbols-outlined text-xl">person_off</span>
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="p-6 bg-primary/5 border border-primary/20 rounded-xl flex items-start gap-4 shadow-sm">
+                <div class="p-2 bg-primary/10 text-primary rounded-lg">
+                    <span class="material-symbols-outlined">info</span>
+                </div>
+                <div>
+                    <h4 class="font-black text-slate-900 uppercase text-sm tracking-widest">Política de
+                        Asistencia GPS</h4>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed font-medium">
+                        Los empleados deben estar a menos de 100 metros del límite designado de la obra para registrar
+                        su entrada. Se envían notificaciones automáticas al supervisor por cualquier infracción de
+                        geovalla no autorizada.
+                    </p>
+                </div>
+            </div>
+            <div class="p-6 bg-white border border-slate-200 rounded-xl flex items-start gap-4 shadow-sm">
+                <div class="p-2 bg-slate-100 text-slate-500 rounded-lg">
+                    <span class="material-symbols-outlined">history</span>
+                </div>
+                <div>
+                    <h4 class="font-black text-slate-900 uppercase text-sm tracking-widest">Actividad
+                        Reciente</h4>
+                    <ul class="mt-3 space-y-3">
+                        <li class="text-xs text-slate-500 flex justify-between gap-4 font-medium">
+                            <span>Empleado Marcus Webb desactivado por el Administrador.</span>
+                            <span class="font-bold text-slate-400 whitespace-nowrap">HACE 2 HORAS</span>
+                        </li>
+                        <li class="text-xs text-slate-500 flex justify-between gap-4 font-medium">
+                            <span>Actualización de cargo: Sarah Davis ascendida a Oficial de Seguridad Líder.</span>
+                            <span class="font-bold text-slate-400 whitespace-nowrap">HACE 5 HORAS</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <app-crear-empleado (empleadoCreado)="cargarEmpleados()"></app-crear-empleado>
+    </main>
+</div>
