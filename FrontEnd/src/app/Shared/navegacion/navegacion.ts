@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navegacion',
@@ -11,4 +11,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class Navegacion {
   user = sessionStorage.getItem('user');
   nombre = this.user ? JSON.parse(this.user).nombre : '';
+
+  constructor(private router: Router){}
+
+  cerrarSesion() {
+    this.router.navigateByUrl('/').then(() => {
+      sessionStorage.clear();
+    });
+  }
+
 }
