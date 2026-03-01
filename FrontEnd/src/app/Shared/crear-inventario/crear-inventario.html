@@ -1,0 +1,79 @@
+<div *ngIf="mostrarModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+    (click)="cerrarModal()">
+
+    <div class="bg-white rounded-xl border border-slate-200 shadow-xl w-full max-w-lg"
+        (click)="$event.stopPropagation()">
+
+        <!-- Header -->
+        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight">
+                    {{ modoEdicion ? 'Actualizar Producto' : 'Nuevo Producto' }}
+                </h2>
+                <p class="text-slate-500 mt-1 text-sm">
+                    {{ modoEdicion ? 'Modifica los datos del producto.' : 'Ingrese los datos del nuevo producto.' }}
+                </p>
+            </div>
+            <button (click)="cerrarModal()" class="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 space-y-4">
+
+            <div class="space-y-2">
+                <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Nombre</label>
+                <input [(ngModel)]="nuevoItem.nombre"
+                    class="w-full px-4 py-3 bg-slate-50 border  text-slate-700 border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-slate-400"
+                    placeholder="Ej. Cemento Portland" type="text" />
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Descripción</label>
+                <input [(ngModel)]="nuevoItem.descripcion"
+                    class=" text-slate-700 w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-slate-400"
+                    placeholder="Ej. Portland Grado 43 • Sacos 50kg" type="text" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Stock Actual</label>
+                    <input [(ngModel)]="nuevoItem.stock"
+                        class="text-slate-700 w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-slate-400"
+                        placeholder="0" type="number" min="1" (keypress)="soloNumerosPositivos($event)"
+                        (input)="validarStock()" />
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide">Stock Máximo</label>
+                    <input [(ngModel)]="nuevoItem.maxStock"
+                        class="text-slate-700 w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-slate-400"
+                        placeholder="0" type="number" min="1" (keypress)="soloNumerosPositivos($event)"
+                        (input)="validarStock()" />
+                </div>
+            </div>
+
+        </div>
+
+        <div *ngIf="errorMessage"
+            class="mx-6 mb-2 flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <span class="material-symbols-outlined text-red-500 text-sm">error</span>
+            <p class="text-xs text-red-600">{{ errorMessage }}</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t border-slate-100 flex gap-4 justify-end">
+            <button (click)="cerrarModal()"
+                class="px-6 py-3 border border-slate-200 text-slate-600 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+                Cancelar
+            </button>
+            <button (click)="guardarItem()"
+                class="inline-flex items-center gap-2 px-8 py-3 bg-blue-400 text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/25 hover:brightness-110 transition-all">
+                <span class="material-symbols-outlined text-lg">save</span>
+                {{ modoEdicion ? 'Guardar Cambios' : 'Guardar Producto' }}
+            </button>
+        </div>
+
+    </div>
+</div>

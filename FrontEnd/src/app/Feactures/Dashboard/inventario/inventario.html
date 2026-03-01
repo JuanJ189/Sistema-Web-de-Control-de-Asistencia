@@ -1,1 +1,210 @@
-<p>inventario works!</p>
+<div class="bg-background-light text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="flex-1 flex flex-col md:flex-row  mx-auto w-full p-4 md:p-8 gap-8">
+            <div class="flex-1 space-y-8">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Gestión de Stock
+                            Detallada</h1>
+                        <p class="text-slate-500 mt-1">Seguimiento en tiempo real de suministros
+                            críticos de construcción.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button (click)="abrirModal()"
+                            class="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 hover:bg-blue-300 transition-all">
+                            <span class="material-symbols-outlined text-sm">add</span>
+                            Añadir Material
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-b-slate-200 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
+                                <span class="material-symbols-outlined">category</span>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total de
+                                Artículos</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-3xl font-black text-slate-900">{{ inventorySummary.totalArticulos
+                                }}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Recursos activos en obra</p>
+                    </div>
+                    <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-amber-400">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-amber-50 rounded-lg text-amber-500">
+                                <span class="material-symbols-outlined">warning</span>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Stock
+                                Bajo</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-3xl font-black text-slate-900">{{ inventorySummary.stockBajo }}</span>
+                            <span class="text-xs font-bold text-slate-500">Requiere pedido</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Cerca del límite mínimo</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-red-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-red-50 rounded-lg text-red-500">
+                                <span class="material-symbols-outlined">error</span>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Nivel
+                                Crítico</span>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-3xl font-black text-slate-900">{{ inventorySummary.stockCritico }}</span>
+                            <span class="text-xs font-bold text-red-500">Crítico</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Acción inmediata requerida</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div *ngFor="let item of inventory"
+                        class="bg-white rounded-xl border border-slate-200 overflow-hidden group hover:shadow-md transition-shadow">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="size-12 bg-slate-100 rounded-xl flex items-center justify-center">
+                                        <span
+                                            class="material-symbols-outlined text-slate-500 text-2xl">home_repair_service</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-900">{{ item.nombre }}</h3>
+                                        <p class="text-xs text-slate-500">{{ item.descripcion }}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-black text-slate-900">{{ item.stock }}</div>
+                                    <div class="text-[10px] font-bold uppercase text-slate-400">Unidades Disponibles
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 mb-6">
+                                <div class="flex justify-between text-xs font-medium">
+                                    <span class="text-slate-500">Stock actual</span>
+                                    <span [class]="getEstadoColor(item.estado) + ' font-bold'">
+                                        {{ item.estado }} ({{ item.porcentajeCantidad }}%)
+                                    </span>
+                                </div>
+                                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div [class]="getBarraColor(item.estado) + ' h-full rounded-full'"
+                                        [style.width.%]="item.porcentajeCantidad">
+                                    </div>
+                                </div>
+                                <div class="flex justify-between text-[10px] text-slate-400">
+                                    <span>Stock: {{ item.stock }} Unidades</span>
+                                    <span>Máx: {{ item.maxStock }} Unidades</span>
+                                </div>
+                            </div>
+
+                            <div class="flex">
+                                <button (click)="actualizarProducto(item)"
+                                    class="w-full bg-blue-500 text-white py-2.5 rounded-lg text-sm font-bold shadow-sm hover:shadow-primary/30 transition-all flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                    Actualizar Producto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="w-full md:w-80 space-y-6">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-900 mb-4">Registro Rápido de Stock</h3>
+                    <div class="space-y-4">
+
+                        <!-- Select de materiales dinámico -->
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Seleccionar
+                                Material</label>
+                            <select [(ngModel)]="transaccion.materialId"
+                                class="w-full bg-slate-50 text-black border border-slate-200 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 px-3 py-2">
+                                <option [value]="0" disabled>Seleccione un material</option>
+                                <option *ngFor="let item of inventory" [value]="item.id">{{ item.nombre }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Tipo de movimiento -->
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Tipo de
+                                Movimiento</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button (click)="seleccionarTipo('ENTRADA')"
+                                    [class]="transaccion.tipo === 'ENTRADA' 
+            ? 'py-2 border-2 border-blue-500 bg-blue-500 rounded-lg text-xs font-bold flex items-center justify-center gap-1' 
+            : 'py-2 border-2 border-slate-100 text-slate-500 rounded-lg text-xs font-bold flex items-center justify-center gap-1'" type="button">
+                                    <span class="material-symbols-outlined text-xs">add_circle</span>
+                                    Entrada
+                                </button>
+                                <button (click)="seleccionarTipo('SALIDA')"
+                                    [class]="transaccion.tipo === 'SALIDA' 
+            ? 'py-2 border-2 border-blue-500 bg-blue-500 rounded-lg text-xs font-bold flex items-center justify-center gap-1' 
+            : 'py-2 border-2 border-slate-100 text-slate-500 rounded-lg text-xs font-bold flex items-center justify-center gap-1'" type="button">
+                                    <span class="material-symbols-outlined text-xs">remove_circle</span>
+                                    Salida
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cantidad -->
+                        <input [(ngModel)]="transaccion.cantidad"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-lg text-black text-sm focus:ring-primary focus:border-primary px-3 py-2"
+                            placeholder="0" type="number" min="1" (keypress)="soloNumerosPositivos($event)"
+                            (input)="validarCantidad()" />
+
+                        <!-- Botón registrar -->
+                        <button (click)="registrarTransaccion()"
+                            class="w-full bg-slate-900 text-white py-3 rounded-lg text-sm font-bold shadow-lg hover:bg-gray-700 transition-all">
+                            Registrar Transacción
+                        </button>
+
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900">Actividad Reciente</h3>
+                    </div>
+                    <div class="overflow-y-auto custom-scrollbar p-6 space-y-6 flex-1">
+                        <div *ngFor="let item of history" class="flex gap-4">
+
+                            <!-- Icono según motivo -->
+                            <div [class]="item.motivo === 'ENTRADA' 
+          ? 'size-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0'
+          : 'size-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0'">
+                                <span class="material-symbols-outlined text-sm">
+                                    {{ item.motivo === 'ENTRADA' ? 'add' : 'remove' }}
+                                </span>
+                            </div>
+
+                            <!-- Descripción y tiempo -->
+                            <div class="flex-1">
+                                <p class="text-xs font-bold text-slate-900">{{ item.descripcion }}</p>
+                                <p class="text-[9px] text-slate-400 mt-1">{{ getTiempoRelativo(item.fechaActividad) }}
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <!-- Si no hay historial -->
+                        <p *ngIf="history.length === 0" class="text-xs text-slate-400 text-center">
+                            No hay actividad reciente
+                        </p>
+
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+        <app-crear-inventario (inventarioGuardado)="cargarInventario()"></app-crear-inventario>
+        <footer class="mt-auto py-6 px-8 border-t border-slate-200 dark:border-slate-800 text-center">
+            <p class="text-xs text-slate-400">© 2024 SiteTrack Pro Gestión de Construcción. Todos los niveles de
+                material están sincronizados mediante seguimiento de inventario.</p>
+        </footer>
+    </div>
+
+</div>

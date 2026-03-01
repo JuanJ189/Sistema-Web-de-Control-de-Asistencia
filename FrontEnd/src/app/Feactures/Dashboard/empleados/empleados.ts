@@ -5,6 +5,7 @@ import { Employee } from '../../../Shared/Models/Empleado';
 import { CommonModule } from '@angular/common';
 import { CrearEmpleado } from '../../../Shared/crear-empleado/crear-empleado';
 import { FormsModule } from '@angular/forms';
+import { InventoryHistory } from '../../../Shared/Models/InventatioHistory';
 
 @Component({
   selector: 'app-empleados',
@@ -21,6 +22,7 @@ export class Empleados {
   };
 
   @ViewChild(CrearEmpleado) modalCrear!: CrearEmpleado;
+
 
   employees: Employee[] = [];
 

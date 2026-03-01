@@ -4,21 +4,26 @@
             <img src="Imagenes/Logo.webp" class="h-10 md:h-16 w-auto object-contain">
         </div>
         <section class="mt-4 md:mt-6">
-            <h1 class="text-lg md:text-2xl font-bold text-slate-800 tracking-tight titulo text-center">Sistema de control de Gestión de obras</h1>
-            <p class="mt-2 text-slate-500 text-xs md:text-sm text-center">Control de asistencia y stock de construcción</p>
+            <h1 class="text-lg md:text-2xl font-bold text-slate-800 tracking-tight titulo text-center">Sistema de
+                control de Gestión de obras</h1>
+            <p class="mt-2 text-slate-500 text-xs md:text-sm text-center">Control de asistencia y stock de construcción
+            </p>
         </section>
-        <div class="w-full max-w-sm md:max-w-md bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden p-4 md:p-6 mt-4 md:mt-6">
+        <div
+            class="w-full max-w-sm md:max-w-md bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden p-4 md:p-6 mt-4 md:mt-6">
             <h2 class="text-base md:text-lg font-semibold text-slate-800 mb-1 md:mb-2">Bienvenido</h2>
             <p class="text-xs md:text-sm text-slate-500 mb-2">Por favor, ingrese sus credenciales para continuar</p>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4 md:space-y-6 mt-4 md:mt-6">
-                <label class="uppercase text-xs font-medium tracking-wider text-slate-500">DNI / documento de identidad</label>
+                <label class="uppercase text-xs font-medium tracking-wider text-slate-500">DNI / documento de
+                    identidad</label>
                 <div class="relative mt-2 md:mt-4">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                         <span class="material-icons text-lg md:text-xl">badge</span>
                     </div>
                     <input
                         class="block w-full pl-11 pr-4 py-2.5 md:py-3 bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-400"
-                        placeholder="Ingrese su número de DNI" required="" type="text" formControlName="dni" />
+                        placeholder="Ingrese su número de DNI" type="text" formControlName="dni"
+                        (keypress)="soloNumeros($event)" />
                 </div>
                 <label class="block text-xs font-medium uppercase tracking-wider text-slate-500">Contraseña</label>
                 <div class="relative">
@@ -29,10 +34,14 @@
                         class="block w-full pl-11 pr-4 py-2.5 md:py-3 bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-400"
                         placeholder="••••••••" required="" type="password" formControlName="password" />
                 </div>
+                <div *ngIf="errorMessage"
+                    class="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <span class="material-icons text-red-500 text-sm">error</span>
+                    <p class="text-xs  text-red-600">{{ errorMessage }}</p>
+                </div>
                 <button
                     class="w-full text-white font-semibold py-3 md:py-3.5 px-4 rounded-lg shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm md:text-base"
-                    type="submit"
-                    style="background-color: #137fec;">
+                    type="submit" style="background-color: #137fec;">
                     <span>Iniciar Sesión</span>
                     <span class="material-icons text-base md:text-lg">login</span>
                 </button>
@@ -40,7 +49,8 @@
         </div>
     </div>
     <div class="hidden md:block w-1/4">
-        <img src="Imagenes/ImagenInicio.webp" class="h-full w-full object-cover" width="480" height="720" alt="Imagen de fondo" />
+        <img src="Imagenes/ImagenInicio.webp" class="h-full w-full object-cover" width="480" height="720"
+            alt="Imagen de fondo" />
         <div class="absolute bottom-7 right-7 text-white text-sm italic">
             <p>"Construyendo el futuro con tecnología y precisión."</p>
         </div>

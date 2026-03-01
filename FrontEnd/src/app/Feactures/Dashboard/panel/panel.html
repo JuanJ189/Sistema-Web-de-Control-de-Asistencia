@@ -71,8 +71,6 @@
                         </th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Umbral</th>
                         <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Estado</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">
-                            Acción</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -85,12 +83,6 @@
                                 [class]="'px-2 py-1 text-xs font-bold rounded ' + getStockEstadoClasses(item.estado).bg + ' ' + getStockEstadoClasses(item.estado).text">
                                 {{ item.estado }}
                             </span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button
-                                class="text-primary font-bold text-xs hover:bg-primary/10 px-3 py-1.5 rounded transition-all">
-                                PEDIR
-                            </button>
                         </td>
                     </tr>
                 </tbody>
