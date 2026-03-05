@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://constructora-backend.duckdns.org/api/' 
+    apiUrl: 'https://constructora-api.onrender.com/api/' 
 };
